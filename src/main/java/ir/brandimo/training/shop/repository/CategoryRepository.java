@@ -1,0 +1,13 @@
+package ir.brandimo.training.shop.repository;
+
+
+import ir.brandimo.training.shop.entity.Category;
+import org.springframework.data.jpa.repository.JpaRepository;
+
+import java.util.List;
+
+public interface CategoryRepository extends JpaRepository<Category,Integer> {
+
+    public List<Category> findCategoryByParentIdIsNull();
+
+}

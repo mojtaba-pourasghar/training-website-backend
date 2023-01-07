@@ -1,0 +1,26 @@
+//: spring.jpa.properties.hibernate.dialect = org.hibernate.dialect.
+welcome:
+  message: Welcome To Onlie Shop
+---
+server:
+  port: 9080
+---
+fullstackbook:
+  app:
+    jwtSecret: mysecret
+    jwtExpirationMs: '86400000'
+---
+spring:
+  datasource:
+    username: root
+    url: jdbc:mysql://localhost:3306/traning-shop?useUnicode=yes&characterEncoding=UTF-8
+    password: ''
+  jpa:
+    hibernate:
+      use-new-id-generator-mappings: 'false'
+      ddl-auto: update
+    properties:
+      hibernate:
+        format_sql: 'true'
+    show-sql: 'true'
+
