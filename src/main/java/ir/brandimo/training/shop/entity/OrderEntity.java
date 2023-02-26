@@ -8,15 +8,18 @@ import lombok.NoArgsConstructor;
 import javax.persistence.*;
 
 @Entity
-@Table(name = "roles")
+@Table(name = "orders")
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-public class Role {
+public class OrderEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int id;
-    private String name;
-    private String slug;
+    @Column(name = "id", nullable = false)
+    private Integer id;
+    @Column(length = 200, name = "title", nullable = false)
+    private String title;
+    @Column(length = 200, name = "meta_title", nullable = false)
+    private String metaTitle;
 }

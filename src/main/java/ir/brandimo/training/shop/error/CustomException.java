@@ -1,6 +1,7 @@
 package ir.brandimo.training.shop.error;
 
 public class CustomException extends Exception{
+
     public CustomException() {
         super();
     }

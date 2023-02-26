@@ -1,7 +1,7 @@
 package ir.brandimo.training.shop.event;
 
 
-import ir.brandimo.training.shop.entity.User;
+import ir.brandimo.training.shop.entity.UserEntity;
 import lombok.Getter;
 import lombok.Setter;
 import org.springframework.context.ApplicationEvent;
@@ -10,10 +10,10 @@ import org.springframework.context.ApplicationEvent;
 @Setter
 public class RegisterationCompleteEvent extends ApplicationEvent {
 
-    private User user;
+    private UserEntity user;
     private String applicaionUrl;
 
-    public RegisterationCompleteEvent(User user,String applicaionUrl) {
+    public RegisterationCompleteEvent(UserEntity user, String applicaionUrl) {
         super(user);
         this.user = user;
         this.applicaionUrl = applicaionUrl;

@@ -1,7 +1,7 @@
 package ir.brandimo.training.shop.event.listeners;
 
 
-import ir.brandimo.training.shop.entity.User;
+import ir.brandimo.training.shop.entity.UserEntity;
 import ir.brandimo.training.shop.event.RegisterationCompleteEvent;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.ApplicationListener;
@@ -20,7 +20,7 @@ public class RegisterationCompleteEventListener implements ApplicationListener<R
     @Override
     public void onApplicationEvent(RegisterationCompleteEvent event) {
         // Create the verification token for user with link
-        User user = event.getUser();
+        UserEntity user = event.getUser();
         String token = UUID.randomUUID().toString();
         //userService.saveVerificationTokenForUser(token, user);
         //Send email to user
