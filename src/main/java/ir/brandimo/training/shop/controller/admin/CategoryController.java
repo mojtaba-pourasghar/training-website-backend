@@ -5,7 +5,7 @@ import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import ir.brandimo.training.shop.dto.admin.CategoryDto;
 import ir.brandimo.training.shop.mapper.admin.CategoryMapper;
-import ir.brandimo.training.shop.service.CategoryServiceImpl;
+import ir.brandimo.training.shop.service.admin.CategoryServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
@@ -39,12 +39,12 @@ public class CategoryController {
         return new ResponseEntity<CategoryDto>(category, new HttpHeaders(), HttpStatus.CREATED);
     }
 
-    @PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<CategoryDto> updateCategory(@RequestBody CategoryDto categoryDto) {
-        CategoryDto category = categoryMapper.categoryEntityToDto
-                (categoryService.updateCategory(categoryMapper.categoryDtoToEntity(categoryDto)));
-        return new ResponseEntity<CategoryDto>(category, new HttpHeaders(), HttpStatus.CREATED);
-    }
+//    @PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
+//    public ResponseEntity<CategoryDto> updateCategory(@RequestBody CategoryDto categoryDto) {
+//        CategoryDto category = categoryMapper.categoryEntityToDto
+//                (categoryService.updateCategory(categoryMapper.categoryDtoToEntity(categoryDto)));
+//        return new ResponseEntity<CategoryDto>(category, new HttpHeaders(), HttpStatus.CREATED);
+//    }
 
     @GetMapping("/{id}")
     @Operation(summary = "Get category by id", description = "Returns a category by id")

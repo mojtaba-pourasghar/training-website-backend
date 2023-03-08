@@ -1,4 +1,4 @@
-package ir.brandimo.training.shop.repository.admin;
+package ir.brandimo.training.shop.repository;
 
 import ir.brandimo.training.shop.entity.VariationEntity;
 import org.springframework.data.jpa.repository.JpaRepository;

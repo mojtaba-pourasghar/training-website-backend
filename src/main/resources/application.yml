@@ -4,12 +4,6 @@ welcome:
 ---
 server:
   port: 9080
----
-fullstackbook:
-  app:
-    jwtSecret: mysecret
-    jwtExpirationMs: '86400000'
----
 spring:
   spring-doc:
     swagger-ui:
@@ -21,7 +15,7 @@ spring:
   jpa:
     hibernate:
       use-new-id-generator-mappings: 'false'
-      ddl-auto: create-drop
+      ddl-auto: update
     properties:
       hibernate:
         format_sql: 'true'

@@ -57,12 +57,12 @@ public class VariationController {
         return HttpStatus.OK;
     }
 
-    @PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<VariationDto> addVariation(@RequestBody VariationDto variationDto) {
-        VariationDto variation = variationMapper.variationEntityToDto
-                (variationService.createVariation(variationMapper.variationDtoToEntity(variationDto)));
-        return new ResponseEntity<VariationDto>(variation, new HttpHeaders(), HttpStatus.CREATED);
-    }
+//    @PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
+//    public ResponseEntity<VariationDto> addVariation(@RequestBody VariationDto variationDto) {
+//        VariationDto variation = variationMapper.variationEntityToDto
+//                (variationService.createVariation(variationMapper.variationDtoToEntity(variationDto)));
+//        return new ResponseEntity<VariationDto>(variation, new HttpHeaders(), HttpStatus.CREATED);
+//    }
 
     @PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<VariationDto> updateVariation(@RequestBody VariationDto variationDto) {

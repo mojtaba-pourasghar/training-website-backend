@@ -1,11 +1,11 @@
-package ir.brandimo.training.shop.service;
+package ir.brandimo.training.shop.service.admin;
 
 import ir.brandimo.training.shop.config.BlazePersistenceConfiguration;
 import ir.brandimo.training.shop.config.LangConfiguration;
 import ir.brandimo.training.shop.entity.CategoryEntity;
 import ir.brandimo.training.shop.error.EntityExist;
 import ir.brandimo.training.shop.error.EntityNotFound;
-import ir.brandimo.training.shop.repository.admin.CategoryRepository;
+import ir.brandimo.training.shop.repository.CategoryRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 

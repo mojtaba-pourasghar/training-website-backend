@@ -25,7 +25,7 @@ public class UserEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id", nullable = false)
-    private Integer id;
+    private int id;
     @Column(name = "user_type", nullable = false)
     private Short userType;
     @Column(length = 200, name = "name", nullable = false)
@@ -45,13 +45,17 @@ public class UserEntity {
     @Column(name = "update_date", nullable = true)
     private Integer updateDate;
 
-    @ManyToMany(cascade = CascadeType.ALL, fetch=FetchType.LAZY)
-    @JoinTable(name = "user_roles",
-            uniqueConstraints = {@UniqueConstraint(columnNames = {"user_id","role_id"})},
-            joinColumns = { @JoinColumn(name = "user_id", referencedColumnName = "id") },
-            inverseJoinColumns = { @JoinColumn(name = "role_id", referencedColumnName = "id") })
-    private Set<RoleEntity> roles = new HashSet<>();
+//    @ManyToMany(cascade = CascadeType.ALL, fetch=FetchType.LAZY)
+//    @JoinTable(name = "user_roles",
+//            uniqueConstraints = {@UniqueConstraint(columnNames = {"user_id","role_id"})},
+//            joinColumns = { @JoinColumn(name = "user_id", referencedColumnName = "id") },
+//            inverseJoinColumns = { @JoinColumn(name = "role_id", referencedColumnName = "id") })
+//    private Set<RoleEntity> roles = new HashSet<>();
 
+
+    @ManyToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "role_id", nullable = false)
+    private RoleEntity role;
 
     @ManyToMany(cascade = CascadeType.ALL, fetch=FetchType.LAZY)
     @JoinTable(name = "user_permissions",

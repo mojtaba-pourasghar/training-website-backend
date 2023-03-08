@@ -7,7 +7,7 @@ import lombok.Setter;
 @Getter
 @Setter
 public class CategoryDto {
-    @JsonProperty("id")
+    @JsonProperty("categoryId")
     private Integer categoryId;
     @JsonProperty("title")
     private String title;

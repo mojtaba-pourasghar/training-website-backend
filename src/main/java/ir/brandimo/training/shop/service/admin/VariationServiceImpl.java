@@ -4,7 +4,7 @@ import ir.brandimo.training.shop.config.LangConfiguration;
 import ir.brandimo.training.shop.entity.VariationEntity;
 import ir.brandimo.training.shop.error.EntityExist;
 import ir.brandimo.training.shop.error.EntityNotFound;
-import ir.brandimo.training.shop.repository.admin.VariationRepository;
+import ir.brandimo.training.shop.repository.VariationRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.webjars.NotFoundException;
@@ -22,7 +22,6 @@ public class VariationServiceImpl implements VariationService {
 
     @Autowired
     LangConfiguration langConfiguration;
-
 
     @Override
     public List<VariationEntity> getAllVariations() {
@@ -42,7 +41,6 @@ public class VariationServiceImpl implements VariationService {
 
     @Override
     public void deleteVariationById(Integer id) {
-        Optional<VariationEntity> variationEntity = variationRepository.findById(id);
         if (variationRepository.existsById(id)) {
             variationRepository.deleteById(id);
         } else {

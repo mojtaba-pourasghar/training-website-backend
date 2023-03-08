@@ -7,8 +7,7 @@ import lombok.Setter;
 @Getter
 @Setter
 public class VariationDto {
-
-    @JsonProperty("id")
+    @JsonProperty("variationId")
     private Integer variationId;
     @JsonProperty("title")
     private String title;

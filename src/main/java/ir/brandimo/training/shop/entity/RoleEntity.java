@@ -29,8 +29,15 @@ public class RoleEntity {
     @Column(name = "update_date", nullable = true)
     private Integer updateDate;
 
-    @ManyToMany(mappedBy = "roles", fetch = FetchType.LAZY)
+//    @ManyToMany(mappedBy = "roles", fetch = FetchType.LAZY)
+//    private Set<UserEntity> users = new HashSet<>();
+
+    @OneToMany(mappedBy = "role", cascade = CascadeType.ALL)
     private Set<UserEntity> users = new HashSet<>();
+
+//    @ManyToOne(cascade = CascadeType.ALL)
+//    @JoinColumn(name = "user_id", nullable = false)
+//    private UserEntity user;
 
     @ManyToMany(cascade = CascadeType.ALL, fetch=FetchType.LAZY)
     @JoinTable(name = "role_permissions",
