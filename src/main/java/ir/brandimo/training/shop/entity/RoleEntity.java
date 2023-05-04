@@ -1,11 +1,13 @@
 package ir.brandimo.training.shop.entity;
 
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
+import lombok.*;
+import org.hibernate.annotations.CreationTimestamp;
+import org.hibernate.annotations.UpdateTimestamp;
 
 import javax.persistence.*;
+import java.sql.Timestamp;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -18,16 +20,20 @@ import java.util.Set;
 public class RoleEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "id", nullable = false)
-    private Integer id;
+//    @Column(name = "id", nullable = false)
+    private int id;
     @Column(length = 200, name = "name", nullable = false)
     private String name;
     @Column(length = 200, name = "description", nullable = false)
     private String description;
+    @CreationTimestamp
     @Column(name = "create_date", nullable = false)
-    private Integer createDate;
+    private Timestamp createDate;
+    @UpdateTimestamp
     @Column(name = "update_date", nullable = true)
-    private Integer updateDate;
+    private Timestamp updateDate;
+    @Column(name = "state", nullable = false)
+    private short state;
 
 //    @ManyToMany(mappedBy = "roles", fetch = FetchType.LAZY)
 //    private Set<UserEntity> users = new HashSet<>();
@@ -39,7 +45,9 @@ public class RoleEntity {
 //    @JoinColumn(name = "user_id", nullable = false)
 //    private UserEntity user;
 
-    @ManyToMany(cascade = CascadeType.ALL, fetch=FetchType.LAZY)
+    @JsonIgnore
+    @EqualsAndHashCode.Exclude
+    @ManyToMany(fetch=FetchType.LAZY, cascade = CascadeType.ALL)
     @JoinTable(name = "role_permissions",
             uniqueConstraints = {@UniqueConstraint(columnNames = {"role_id","permission_id"})},
             joinColumns = { @JoinColumn(name = "role_id", referencedColumnName = "id") },

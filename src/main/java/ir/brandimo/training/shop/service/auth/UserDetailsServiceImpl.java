@@ -1,4 +1,4 @@
-package ir.brandimo.training.shop.service;
+package ir.brandimo.training.shop.service.auth;
 
 
 import ir.brandimo.training.shop.entity.UserEntity;

@@ -5,8 +5,11 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.hibernate.annotations.ColumnDefault;
+import org.hibernate.annotations.CreationTimestamp;
+import org.hibernate.annotations.UpdateTimestamp;
 
 import javax.persistence.*;
+import java.sql.Timestamp;
 
 @Entity
 @Table(name = "promotions")
@@ -30,10 +33,12 @@ public class PromotionEntity {
     private int endDate;
     @Column(name = "discount", nullable = false)
     private double discount;
+    @CreationTimestamp
     @Column(name = "create_date", nullable = false)
-    private Integer createDate;
+    private Timestamp createDate;
+    @UpdateTimestamp
     @Column(name = "update_date", nullable = true)
-    private Integer updateDate;
+    private Timestamp updateDate;
 
     @ManyToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "product_id", nullable = false)

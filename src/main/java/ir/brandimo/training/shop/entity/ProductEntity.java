@@ -4,9 +4,12 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.Type;
+import org.hibernate.annotations.UpdateTimestamp;
 
 import javax.persistence.*;
+import java.sql.Timestamp;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -30,16 +33,19 @@ public class ProductEntity {
     private String description;
     @Column(name = "price", nullable = true)
     private Float price;
-    @Column(name = "state", nullable = false)
-    private int state;
-    @Column(name = "create_date", nullable = false)
-    private Integer createDate;
-    @Column(name = "update_date", nullable = true)
-    private Integer updateDate;
     @Column(name = "slug", length = 100, nullable = false)
     private String slug;
     @Column(name = "part_number", nullable = false)
     private int partNumber;
+    @Column(name = "state", nullable = false)
+    private int state;
+    @CreationTimestamp
+    @Column(name = "create_date", nullable = false)
+    private Timestamp createDate;
+    @UpdateTimestamp
+    @Column(name = "update_date", nullable = true)
+    private Timestamp updateDate;
+
 
 
     @OneToMany(mappedBy = "product", cascade = CascadeType.ALL)

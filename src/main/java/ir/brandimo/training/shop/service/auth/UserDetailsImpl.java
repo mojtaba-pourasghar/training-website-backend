@@ -1,4 +1,4 @@
-package ir.brandimo.training.shop.service;
+package ir.brandimo.training.shop.service.auth;
 
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
@@ -8,13 +8,10 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.springframework.security.core.GrantedAuthority;
-import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
 
 import java.util.Collection;
-import java.util.List;
-import java.util.stream.Collectors;
 
 @Service
 @Data
@@ -36,7 +33,7 @@ public class UserDetailsImpl implements UserDetails {
 //                .collect(Collectors.toList());
         return new UserDetailsImpl(
                 user.getId(),
-                user.getUserName(),
+                user.getMobile(),
                 user.getEmail(),
                 user.getPassword());
 //                authorities);

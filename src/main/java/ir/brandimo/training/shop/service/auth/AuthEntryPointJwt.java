@@ -1,4 +1,4 @@
-package ir.brandimo.training.shop.service;
+package ir.brandimo.training.shop.service.auth;
 
 import lombok.extern.log4j.Log4j2;
 import org.springframework.security.core.AuthenticationException;

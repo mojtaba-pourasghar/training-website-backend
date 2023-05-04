@@ -27,7 +27,6 @@ public class VariationController {
     @Autowired
     VariationMapper variationMapper;
 
-
     @GetMapping("/{id}")
     @Operation(summary = "Get variation by id", description = "Returns a variation by id")
     @ApiResponses(value = {
@@ -57,14 +56,14 @@ public class VariationController {
         return HttpStatus.OK;
     }
 
-//    @PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
-//    public ResponseEntity<VariationDto> addVariation(@RequestBody VariationDto variationDto) {
-//        VariationDto variation = variationMapper.variationEntityToDto
-//                (variationService.createVariation(variationMapper.variationDtoToEntity(variationDto)));
-//        return new ResponseEntity<VariationDto>(variation, new HttpHeaders(), HttpStatus.CREATED);
-//    }
-
     @PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<VariationDto> addVariation(@RequestBody VariationDto variationDto) {
+        VariationDto variation = variationMapper.variationEntityToDto
+                (variationService.createVariation(variationMapper.variationDtoToEntity(variationDto)));
+        return new ResponseEntity<VariationDto>(variation, new HttpHeaders(), HttpStatus.CREATED);
+    }
+
+    @PutMapping(consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<VariationDto> updateVariation(@RequestBody VariationDto variationDto) {
         VariationDto variation = variationMapper.variationEntityToDto
                 (variationService.updateVariation(variationMapper.variationDtoToEntity(variationDto)));

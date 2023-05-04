@@ -2,7 +2,7 @@ package ir.brandimo.training.shop.util;
 
 
 import io.jsonwebtoken.*;
-import ir.brandimo.training.shop.service.UserDetailsImpl;
+import ir.brandimo.training.shop.service.auth.UserDetailsImpl;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.core.Authentication;

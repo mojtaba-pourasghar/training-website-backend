@@ -1,14 +1,16 @@
 package ir.brandimo.training.shop.entity;
 
-import lombok.Builder;
-import lombok.Data;
-import lombok.Getter;
-import lombok.Setter;
+import lombok.*;
+import org.hibernate.annotations.CreationTimestamp;
+import org.hibernate.annotations.UpdateTimestamp;
 
 import javax.persistence.*;
+import java.sql.Timestamp;
 
 @Entity
 @Table(name = "productdetail")
+@AllArgsConstructor
+@NoArgsConstructor
 @Data
 @Getter
 @Setter
@@ -24,10 +26,12 @@ public class ProductDetailEntity {
     private String filePath;
     @Column(name = "coverPath", length = 100, nullable = false)
     private String coverPath;
+    @CreationTimestamp
     @Column(name = "create_date", nullable = false)
-    private Integer createDate;
+    private Timestamp createDate;
+    @UpdateTimestamp
     @Column(name = "update_date", nullable = true)
-    private Integer updateDate;
+    private Timestamp updateDate;
 
     @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     @JoinColumn(name = "product_id", nullable = false)

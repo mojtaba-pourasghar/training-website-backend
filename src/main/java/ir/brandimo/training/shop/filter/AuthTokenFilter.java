@@ -2,7 +2,7 @@ package ir.brandimo.training.shop.filter;
 
 
 
-import ir.brandimo.training.shop.service.UserDetailsServiceImpl;
+import ir.brandimo.training.shop.service.auth.UserDetailsServiceImpl;
 import ir.brandimo.training.shop.util.JwtUtil;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;

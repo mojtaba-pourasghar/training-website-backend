@@ -1,8 +1,8 @@
 package ir.brandimo.training.shop.config;
 
 import ir.brandimo.training.shop.filter.AuthTokenFilter;
-import ir.brandimo.training.shop.service.AuthEntryPointJwt;
-import ir.brandimo.training.shop.service.UserDetailsServiceImpl;
+import ir.brandimo.training.shop.service.auth.AuthEntryPointJwt;
+import ir.brandimo.training.shop.service.auth.UserDetailsServiceImpl;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Primary;
@@ -27,16 +27,11 @@ public class SecurityConfiguration {
     private AuthTokenFilter authTokenFilter;
 
     private static final String[] WHITE_LIST_URLS = {
-            "/",
-            "/api/auth/**",
-            "/hello",
-            "/api/v1/user/register/**",
-            "/api/login/**",
-            "/api/v1/categories/**",
-            "/api/v1/textile/search/**",
-            "/api/v1/textile/view/**",
-            "/api/v1/trends/all/sex/{\\d+}/tag/{\\d+}/**",
-            "/v2/api-docs", "/configuration/**", "/swagger*/**", "/webjars/**"
+            "/**",
+            "/v1/auth/**"
+//            "/training-shop/v1/auth/**"
+//            "/v1/auth/signin/**"
+//            "/swagger-ui.html"
     };
 
     public SecurityConfiguration(UserDetailsServiceImpl userDetailsService, AuthEntryPointJwt authEntryPointJwt, AuthTokenFilter authTokenFilter) {

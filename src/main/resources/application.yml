@@ -1,16 +1,43 @@
 //: spring.jpa.properties.hibernate.dialect = org.hibernate.dialect.
 welcome:
-  message: Welcome To Onlie Shop
+  message: Welcome To Spring Boot
 ---
 server:
   port: 9080
+  address: 172.20.144.173
+  error:
+    include-message: always
+---
 spring:
-  spring-doc:
-    swagger-ui:
-      path: /swagger-ui.html
+
+  jackson:
+    default-property-inclusion: non_null
+  autoconfigure:
+
+  #    exclude: org.springframework.boot.autoconfigure.web.ErrorMvcAutoConfiguration
+  mvc:
+    throw-exception-if-no-handler-found: true
+  resources:
+  profiles:
+    active: dev
+  web:
+    resources:
+      add-mappings: false
+---
+## active all endpoints in actuator
+management:
+  endpoints:
+    web:
+      exposure:
+        include: "*"
+        # exclude: "env,beans"
+---
+spring:
+  profiles:
+    dev
   datasource:
     username: root
-    url: jdbc:mysql://localhost:3306/traning-shop?useUnicode=yes&characterEncoding=UTF-8
+    url: jdbc:mysql://localhost:3306/training-shop?useUnicode=yes&characterEncoding=UTF-8
     password: ''
   jpa:
     hibernate:
@@ -21,3 +48,74 @@ spring:
         format_sql: 'true'
     show-sql: 'true'
 
+---
+spring:
+  profiles:
+    prod
+  datasource:
+    username: root
+    url: jdbc:mysql://localhost:3306/training-shop-prod?useUnicode=yes&characterEncoding=UTF-8
+    password: ''
+  jpa:
+    hibernate:
+      use-new-id-generator-mappings: 'false'
+      ddl-auto: update
+    properties:
+      hibernate:
+        format_sql: 'true'
+    show-sql: 'true'
+
+
+
+
+#//: spring.jpa.properties.hibernate.dialect = org.hibernate.dialect.
+#welcome:
+#  message: Welcome To Onlie Shop On Tomcat
+#---
+#server:
+#  port: 9080
+#  address: 172.20.144.138
+#---
+#server:
+#  error:
+#    include-message: always
+#---
+#spring:
+#  profiles:
+#    active: dev
+#---
+#  profiles: dev
+#  spring-doc:
+#    swagger-ui:
+#      path: /swagger-ui.html
+#  datasource:
+#    username: root
+#    url: jdbc:mysql://localhost:3306/training-shop-dev?useUnicode=yes&characterEncoding=UTF-8
+#    password: ''
+#  jpa:
+#    hibernate:
+#      use-new-id-generator-mappings: 'false'
+#      ddl-auto: create
+#    properties:
+#      hibernate:
+#        format_sql: 'true'
+#    show-sql: 'true'
+#
+#  spring:
+#    profiles: prod
+#    spring-doc:
+#      swagger-ui:
+#        path: /swagger-ui.html
+#    datasource:
+#      username: root
+#      url: jdbc:mysql://localhost:3306/training-shop-prod?useUnicode=yes&characterEncoding=UTF-8
+#      password: ''
+#    jpa:
+#      hibernate:
+#        use-new-id-generator-mappings: 'false'
+#        ddl-auto: create
+#      properties:
+#        hibernate:
+#          format_sql: 'true'
+#      show-sql: 'true'
+#

@@ -3,9 +3,12 @@ package ir.brandimo.training.shop.entity;
 import lombok.*;
 import lombok.experimental.Accessors;
 import org.hibernate.annotations.ColumnDefault;
+import org.hibernate.annotations.CreationTimestamp;
+import org.hibernate.annotations.UpdateTimestamp;
 import org.springframework.lang.Nullable;
 
 import javax.persistence.*;
+import java.sql.Timestamp;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -27,10 +30,12 @@ public class CategoryEntity {
     private boolean isEnabled;
     @Column(name="priority")
     private short priority;
+    @CreationTimestamp
     @Column(name = "create_date", nullable = false)
-    private Integer createDate;
+    private Timestamp createDate;
+    @UpdateTimestamp
     @Column(name = "update_date", nullable = true)
-    private Integer updateDate;
+    private Timestamp updateDate;
     @Column(name = "user_id", nullable = false)
     private Integer userId;
 

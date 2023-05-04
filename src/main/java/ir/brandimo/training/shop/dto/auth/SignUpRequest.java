@@ -1,4 +1,4 @@
-package ir.brandimo.training.shop.dto;
+package ir.brandimo.training.shop.dto.auth;
 
 import lombok.Data;
 
