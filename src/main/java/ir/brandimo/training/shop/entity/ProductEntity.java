@@ -1,16 +1,15 @@
 package ir.brandimo.training.shop.entity;
 
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.Type;
 import org.hibernate.annotations.UpdateTimestamp;
 
 import javax.persistence.*;
 import java.sql.Timestamp;
+import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 @Entity
@@ -22,7 +21,7 @@ import java.util.Set;
 public class ProductEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "id", nullable = false)
+//    @Column(name = "id", nullable = false)
     private Integer id;
     @Column(length = 200, name = "title", nullable = false)
     private String title;
@@ -46,13 +45,15 @@ public class ProductEntity {
     @Column(name = "update_date", nullable = true)
     private Timestamp updateDate;
 
+    @OneToMany(mappedBy = "product", cascade = CascadeType.ALL)
+    private List<ProductDetailEntity> productDetails = new ArrayList<>();
 
+    @ManyToOne
+    @JoinColumn(name = "category_id", nullable = false)
+    private CategoryEntity category;
 
     @OneToMany(mappedBy = "product", cascade = CascadeType.ALL)
     private Set<CommentEntity> comments = new HashSet<>();
-
-    @OneToMany(mappedBy = "product", cascade = CascadeType.ALL)
-    private Set<ProductDetailEntity> productDetails = new HashSet<>();
 
     @OneToMany(mappedBy = "product", cascade = CascadeType.ALL)
     private Set<PromotionEntity> promotions = new HashSet<>();
@@ -71,8 +72,6 @@ public class ProductEntity {
             inverseJoinColumns = { @JoinColumn(name = "option_id", referencedColumnName = "id") })
     private Set<VariationEntity> product_options = new HashSet<>();
 
-    @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-    @JoinColumn(name = "category_id", nullable = false)
-    private CategoryEntity category;
+
 
 }

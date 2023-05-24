@@ -18,12 +18,17 @@ import java.sql.Timestamp;
 public class ProductDetailEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "id", nullable = false)
+//    @Column(name = "id", nullable = false)
     private Integer id;
     @Column(name = "title", length = 100,nullable = false)
     private String title;
+
     @Column(name = "filePath", length = 100, nullable = false)
     private String filePath;
+
+    @Column(name = "fileName", length = 100, nullable = false)
+    private String fileName;
+
     @Column(name = "coverPath", length = 100, nullable = false)
     private String coverPath;
     @CreationTimestamp
@@ -33,7 +38,7 @@ public class ProductDetailEntity {
     @Column(name = "update_date", nullable = true)
     private Timestamp updateDate;
 
-    @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @ManyToOne
     @JoinColumn(name = "product_id", nullable = false)
     private ProductEntity product;
 

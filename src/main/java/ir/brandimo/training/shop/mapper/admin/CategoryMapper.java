@@ -12,15 +12,12 @@ import java.util.List;
 @Mapper(componentModel = "spring")
 public interface CategoryMapper {
 
-    CategoryMapper CATEGORY_MAPPER = Mappers.getMapper(CategoryMapper.class);
+    CategoryDto toDTO(CategoryEntity category);
 
-    @Mapping(source = "categoryEntity.id", target = "categoryId")
-    @Mapping(source = "categoryEntity.parentCategory.id", target = "parentId")
-    CategoryDto categoryEntityToDto(CategoryEntity categoryEntity);
-    List<CategoryDto> categoryEntitiesToDtos(List<CategoryEntity> categoryEntities);
+    CategoryEntity toEntity(CategoryDto categoryDTO);
 
-    @InheritInverseConfiguration
-    CategoryEntity categoryDtoToEntity(CategoryDto categoryDto);
-    List<CategoryEntity> categoryDtosToEntities(List<CategoryDto> categoryDtos);
+    List<CategoryDto> toDTOList(List<CategoryEntity> categories);
+
+    List<CategoryEntity> toEntityList(List<CategoryDto> categoryDTOs);
 
 }

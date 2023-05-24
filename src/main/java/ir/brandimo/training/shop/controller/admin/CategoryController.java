@@ -34,8 +34,8 @@ public class CategoryController {
 
     @PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<CategoryDto> addCategory(@RequestBody CategoryDto categoryDto) {
-        CategoryDto category = categoryMapper.categoryEntityToDto
-                (categoryService.createCategory(categoryMapper.categoryDtoToEntity(categoryDto)));
+        CategoryDto category = categoryMapper.toDTO
+                (categoryService.createCategory(categoryMapper.toEntity(categoryDto)));
         return new ResponseEntity<CategoryDto>(category, new HttpHeaders(), HttpStatus.CREATED);
     }
 
@@ -54,7 +54,7 @@ public class CategoryController {
 
     })
     public ResponseEntity<CategoryDto> getCategoryById(@PathVariable("id") Integer id) {
-        CategoryDto categoryDto = categoryMapper.categoryEntityToDto(categoryService.getCategoryById(id));
+        CategoryDto categoryDto = categoryMapper.toDTO(categoryService.getCategoryById(id));
         return new ResponseEntity<CategoryDto>(categoryDto, new HttpHeaders(), HttpStatus.OK);
     }
 
@@ -66,7 +66,7 @@ public class CategoryController {
 
     })
     public ResponseEntity<List<CategoryDto>> getAllEmployees() {
-        List<CategoryDto> categoryDtos = categoryMapper.categoryEntitiesToDtos(categoryService.getAllCategories());
+        List<CategoryDto> categoryDtos = categoryMapper.toDTOList(categoryService.getAllCategories());
         return new ResponseEntity<List<CategoryDto>>(categoryDtos, new HttpHeaders(), HttpStatus.OK);
     }
 }

@@ -9,7 +9,9 @@ import org.springframework.lang.Nullable;
 
 import javax.persistence.*;
 import java.sql.Timestamp;
+import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 @Entity
@@ -21,7 +23,6 @@ import java.util.Set;
 public class CategoryEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "id", nullable = false)
     private Integer id;
     @Column(length = 100, name = "title", nullable = false)
     private String title;
@@ -39,25 +40,11 @@ public class CategoryEntity {
     @Column(name = "user_id", nullable = false)
     private Integer userId;
 
-//    @Nullable
-//    @OneToOne
-//    @JoinColumn(name = "parent_id", insertable = false, updatable = false, nullable = true)
-//    private CategoryEntity parentCategory;
-//
-//    @OneToMany(mappedBy = "parentCategory", cascade = CascadeType.ALL)
-//    private Set<CategoryEntity> subCategories = new HashSet<>();
 
     @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     @JoinColumn(name = "parent_id", nullable = true)
     private CategoryEntity parentCategory;
 
-//    @ManyToOne(fetch = FetchType.LAZY)
-//    @JoinColumn(name = "root_id")
-//    public CategoryEntity rootCategory;
-
-    @OneToMany(mappedBy = "parentCategory", cascade = CascadeType.ALL)
-    private Set<CategoryEntity> subCategories = new HashSet<>();
-
     @OneToMany(mappedBy = "category", cascade = CascadeType.ALL)
-    private Set<ProductEntity> products = new HashSet<>();
+    private List<ProductEntity> products = new ArrayList<>();
 }
