@@ -38,8 +38,8 @@ public class ProductDetailEntity {
     @Column(name = "update_date", nullable = true)
     private Timestamp updateDate;
 
-    @ManyToOne
-    @JoinColumn(name = "product_id", nullable = false)
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "product_id")
     private ProductEntity product;
 
 }

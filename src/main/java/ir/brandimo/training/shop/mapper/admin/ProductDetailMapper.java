@@ -2,10 +2,8 @@ package ir.brandimo.training.shop.mapper.admin;
 
 import ir.brandimo.training.shop.dto.admin.ProductDetailDto;
 import ir.brandimo.training.shop.entity.ProductDetailEntity;
-import org.mapstruct.CollectionMappingStrategy;
-import org.mapstruct.InheritInverseConfiguration;
-import org.mapstruct.Mapper;
-import org.mapstruct.Mapping;
+import ir.brandimo.training.shop.entity.ProductEntity;
+import org.mapstruct.*;
 
 import java.util.List;
 
@@ -13,10 +11,11 @@ import java.util.List;
 public interface ProductDetailMapper {
 
     ProductDetailDto toDTO(ProductDetailEntity productDetail);
-
     ProductDetailEntity toEntity(ProductDetailDto productDetailDTO);
 
     List<ProductDetailDto> toDTOList(List<ProductDetailEntity> productDetails);
 
     List<ProductDetailEntity> toEntityList(List<ProductDetailDto> productDetailDTOs);
+
+
 }

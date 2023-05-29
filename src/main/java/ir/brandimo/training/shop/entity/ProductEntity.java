@@ -46,10 +46,10 @@ public class ProductEntity {
     private Timestamp updateDate;
 
     @OneToMany(mappedBy = "product", cascade = CascadeType.ALL)
-    private List<ProductDetailEntity> productDetails = new ArrayList<>();
+    private List<ProductDetailEntity> productDetails;
 
-    @ManyToOne
-    @JoinColumn(name = "category_id", nullable = false)
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "category_id")
     private CategoryEntity category;
 
     @OneToMany(mappedBy = "product", cascade = CascadeType.ALL)

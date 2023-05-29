@@ -66,8 +66,7 @@ public class ProductController {
 
     @PutMapping(consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<ProductDto> updateProduct(@RequestBody ProductDto productDto) {
-        ProductDto product = productMapper.toDTO(
-                (productService.updateProduct(productMapper.toEntity(productDto))));
-        return new ResponseEntity<>(product, new HttpHeaders(), HttpStatus.OK);
+        ProductDto updatedProduct = productService.updateProduct(productDto);
+        return new ResponseEntity<>(updatedProduct, new HttpHeaders(), HttpStatus.OK);
     }
 }

@@ -1,11 +1,13 @@
 package ir.brandimo.training.shop.service.admin;
 
 import ir.brandimo.training.shop.config.LangConfiguration;
+import ir.brandimo.training.shop.dto.admin.ProductDetailDto;
 import ir.brandimo.training.shop.dto.admin.ProductDto;
 import ir.brandimo.training.shop.entity.CategoryEntity;
 import ir.brandimo.training.shop.entity.ProductDetailEntity;
 import ir.brandimo.training.shop.entity.ProductEntity;
 import ir.brandimo.training.shop.error.EntityNotFound;
+import ir.brandimo.training.shop.mapper.admin.ProductDetailMapper;
 import ir.brandimo.training.shop.mapper.admin.ProductMapper;
 import ir.brandimo.training.shop.repository.CategoryRepository;
 import ir.brandimo.training.shop.repository.ProductDetailRepository;
@@ -13,12 +15,11 @@ import ir.brandimo.training.shop.repository.ProductRepository;
 import org.apache.tomcat.util.codec.binary.Base64;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.webjars.NotFoundException;
 
 import java.io.FileOutputStream;
 import javax.transaction.Transactional;
-import java.io.FileOutputStream;
 import java.io.IOException;
+import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.*;
@@ -42,7 +43,10 @@ public class ProductServiceImpl implements ProductService {
     @Autowired
     private ProductMapper productMapper;
 
-    private final Path path = Paths.get("src/main/resources/images/");
+    @Autowired
+    private ProductDetailMapper productDetailMapper;
+    private final String uploadDir = "src/main/resources/images/";
+    private final Path path = Paths.get(uploadDir);
 
     @Override
     @Transactional
@@ -82,6 +86,28 @@ public class ProductServiceImpl implements ProductService {
         }
     }
 
+    private void saveImageFromBase64(String base64, String fileName) throws IOException, Exception{
+        try {
+            byte[] decodedImage = Base64.decodeBase64(base64);
+            FileOutputStream fos = new FileOutputStream(String.valueOf(path.resolve(fileName)));
+            fos.write(decodedImage);
+            fos.close();
+        } catch (IOException e) {
+            // Handle IOException
+            e.printStackTrace();
+            throw e;
+        } catch (Exception e) {
+            // Handle other exceptions
+            e.printStackTrace();
+            throw e;
+        }
+    }
+
+    private boolean delete(String filename) throws IOException {
+        Path path = Paths.get(uploadDir + "/" + filename);
+        return Files.deleteIfExists(path);
+    }
+
     @Override
     public ProductDto createProduct(ProductDto productDTO) {
 
@@ -89,7 +115,8 @@ public class ProductServiceImpl implements ProductService {
 
         // set the category of the product
         CategoryEntity category = categoryRepository.findById(productDTO.getCategoryId())
-                .orElseThrow(() -> new NotFoundException("Category not found"));
+                .orElseThrow(() -> new EntityNotFound(langConfiguration.category().getMessage("notFound.message", null, Locale.ENGLISH)));
+
         product.setCategory(category);
 
         // set the product details
@@ -99,15 +126,8 @@ public class ProductServiceImpl implements ProductService {
                     pd.setProduct(product);
                     if (pd.getFilePath() != null && !pd.getFilePath().equalsIgnoreCase("null")) {
                         try {
-                            byte[] decodedImage = Base64.decodeBase64(pd.getFilePath());
-                            FileOutputStream fos = new FileOutputStream(String.valueOf(path.resolve(pd.getFileName())));
-                            fos.write(decodedImage);
-                            fos.close();
-                        } catch (IOException e) {
-                            // Handle IOException
-                            e.printStackTrace();
+                            saveImageFromBase64(pd.getFilePath(),pd.getFileName());
                         } catch (Exception e) {
-                            // Handle other exceptions
                             e.printStackTrace();
                         }
                         pd.setFilePath(pd.getFileName());
@@ -126,27 +146,89 @@ public class ProductServiceImpl implements ProductService {
     }
 
     @Override
-    public ProductEntity updateProduct(ProductEntity productEntity) {
-        Optional<ProductEntity> product = productRepository.findById(productEntity.getId());
+    public ProductDto updateProduct(ProductDto productDTO) {
 
-        if (product.isPresent()) {
-            ProductEntity newProductEntity = product.get();
-            newProductEntity.setCreateDate(newProductEntity.getCreateDate());
-            newProductEntity.setTitle(productEntity.getTitle());
-            newProductEntity.setDescription(productEntity.getDescription());
-            newProductEntity.setState(productEntity.getState());
+        //ProductEntity product = productMapper.toEntity(productDTO);
 
-            /*Set<PermissionEntity> permissionEntitySet = new HashSet<>();
-            PermissionEntity permission = null;
-            for (PermissionEntity p: productEntity.getProduct_permissions()) {
-                permission = permissionRepository.findById(p.getId()).get();
-                permissionEntitySet.add(permission);
+       // Optional<ProductEntity> product = productRepository.findById(productDTO.getId());
+          //////////////////////////////
+        ProductEntity product = productRepository.findById(productDTO.getId())
+                .orElseThrow(() -> new EntityNotFound(langConfiguration.product().getMessage("notFound.message", null, Locale.ENGLISH)));
+        List<ProductDetailDto> images = productDTO.getImages();
+        if (images != null) {
+            for (ProductDetailEntity productDetail : product.getProductDetails()) {
+                boolean found = false;
+                for (ProductDetailDto imageDto : images) {
+                    if (productDetail.getFileName().equals(imageDto.getFileName())) {
+                        found = true;
+                        break;
+                    }
+                }
+                if (!found) {
+                    // delete file from server
+                    try {
+                        delete(productDetail.getFileName());
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+                    // delete entity from database
+                    productDetail.setProduct(null);
+                    product.getProductDetails().remove(productDetail);
+                }
             }
-            newProductEntity.setProduct_permissions(permissionEntitySet);*/
-            productRepository.save(newProductEntity);
-            return newProductEntity;
-        } else {
-            throw new NotFoundException(langConfiguration.product().getMessage("notFound.message", null, Locale.ENGLISH));
+            for (ProductDetailDto imageDto : images) {
+                if (imageDto.getId() == null) {
+                    // upload file to server
+                    try {
+                        saveImageFromBase64(imageDto.getFilePath(),imageDto.getFileName());
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
+                    // create entity in database
+                    ProductDetailEntity productDetail = productDetailMapper.toEntity(imageDto);
+                    productDetail.setFilePath(productDetail.getFileName());
+                    productDetail.setProduct(product);
+                    product.getProductDetails().add(productDetail);
+                } else {
+
+                    if (imageDto.getFilePath() != null)
+                    {
+                        // delete old file from server
+                        Optional<ProductDetailEntity> pd = productDetailRepository.findById(imageDto.getId());
+                        try {
+                            delete(pd.get().getFileName());
+                        } catch (IOException e) {
+                            e.printStackTrace();
+                        }
+                        // upload new file to server
+                        try {
+                            saveImageFromBase64(imageDto.getFilePath(),imageDto.getFileName());
+                        } catch (Exception e) {
+                            e.printStackTrace();
+                        }
+
+                        // update entity in database
+                        for (ProductDetailEntity productDetail : product.getProductDetails()) {
+                            if (productDetail.getId().equals(imageDto.getId())) {
+                                productDetail.setTitle(imageDto.getTitle());
+                                productDetail.setFilePath(imageDto.getFileName());
+                                productDetail.setCoverPath(imageDto.getCoverPath());
+                            }
+                        }
+                    }
+
+                }
+            }
         }
+       // product = productMapper.toNoRelationEntity(productDTO);
+        product.setTitle(productDTO.getTitle());
+        product.setMetaTitle(productDTO.getMetaTitle());
+        product.setDescription(productDTO.getDescription());
+        product.setPrice(productDTO.getPrice());
+        product.setSlug(productDTO.getSlug());
+        product.setPartNumber(productDTO.getPartNumber());
+        product.setState(productDTO.getState());
+        product = productRepository.save(product);
+        return productMapper.toDTO(product);
     }
 }

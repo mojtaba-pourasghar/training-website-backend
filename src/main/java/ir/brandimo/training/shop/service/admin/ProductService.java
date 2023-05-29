@@ -10,5 +10,5 @@ public interface ProductService {
     public ProductEntity getProductById(Integer id);
     public void deleteProductById(Integer id);
     public ProductDto createProduct(ProductDto productDTO);
-    public ProductEntity updateProduct(ProductEntity productEntity);
+    public ProductDto updateProduct(ProductDto productDTO);
 }

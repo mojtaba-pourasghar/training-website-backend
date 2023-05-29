@@ -16,6 +16,7 @@ public class ProductDetailDto {
     private String fileName;
     private String coverPath;
     private Integer productId;
+
     @JsonIgnore
     private Timestamp create_date;
     @JsonIgnore
