@@ -10,5 +10,6 @@ public interface Keys {
         public static final String PermissionApiPath = AdminPath + "v1/permissions";
         public static final String RoleApiPath = AdminPath + "v1/roles";
         public static final String ProductApiPath = AdminPath + "v1/products";
+        public static final String OrderApiPath = AdminPath + "v1/orders";
     }
 }

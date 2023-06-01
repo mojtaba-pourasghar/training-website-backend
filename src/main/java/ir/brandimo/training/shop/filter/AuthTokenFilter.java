@@ -3,8 +3,10 @@ package ir.brandimo.training.shop.filter;
 
 
 import ir.brandimo.training.shop.service.auth.UserDetailsServiceImpl;
+import ir.brandimo.training.shop.util.AuthUtils;
 import ir.brandimo.training.shop.util.JwtUtil;
 import lombok.extern.log4j.Log4j2;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -25,6 +27,9 @@ public class AuthTokenFilter extends OncePerRequestFilter {
     private JwtUtil jwtUtil;
     private UserDetailsServiceImpl userDetailsService;
 
+    @Autowired
+    private AuthUtils authUtils;
+
     public AuthTokenFilter(JwtUtil jwtUtil, UserDetailsServiceImpl userDetailsService) {
         this.jwtUtil = jwtUtil;
         this.userDetailsService = userDetailsService;
@@ -37,6 +42,7 @@ public class AuthTokenFilter extends OncePerRequestFilter {
             if (jwt != null && jwtUtil.validateJwtToken(jwt)) {
                 String email = jwtUtil.getEmailFromJwtToken(jwt);
                 UserDetails userDetails = userDetailsService.loadUserByUsername(email);
+                AuthUtils.setUserId(userDetails.getUsername());
                 UsernamePasswordAuthenticationToken authentication = new UsernamePasswordAuthenticationToken(userDetails, null,
                         userDetails.getAuthorities());
                 authentication.setDetails(new WebAuthenticationDetailsSource().buildDetails(request));

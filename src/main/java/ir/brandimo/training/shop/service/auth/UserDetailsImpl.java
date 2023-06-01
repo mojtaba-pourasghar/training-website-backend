@@ -31,11 +31,17 @@ public class UserDetailsImpl implements UserDetails {
 //        List<GrantedAuthority> authorities = user.getRoles().stream()
 //                .map(role -> new SimpleGrantedAuthority(role.getName()))
 //                .collect(Collectors.toList());
-        return new UserDetailsImpl(
+        UserDetailsImpl details = new UserDetailsImpl();
+        details.setId( user.getId());
+        details.setEmail(user.getEmail());
+        details.setUserName(String.valueOf(user.getId()));
+        details.setPassword( user.getPassword());
+        return details;
+       /* return new UserDetailsImpl(
                 user.getId(),
                 user.getMobile(),
                 user.getEmail(),
-                user.getPassword());
+                user.getPassword());*/
 //                authorities);
     }
 

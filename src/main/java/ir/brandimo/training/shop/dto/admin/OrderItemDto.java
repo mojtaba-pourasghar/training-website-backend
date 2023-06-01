@@ -2,7 +2,6 @@ package ir.brandimo.training.shop.dto.admin;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -11,19 +10,16 @@ import java.sql.Timestamp;
 @JsonIgnoreProperties(ignoreUnknown = true)
 @Getter
 @Setter
-public class UserDto {
+public class OrderItemDto {
+
     private Integer id;
-    private String name;
-    @JsonIgnore
-    private String userName;
-    private String email;
-    private String password;
-    private String mobile;
-    private short state;
+    private Integer orderId;
+    private Integer productId;
+    private double sumPrice;
+    private int itemCount;
+
     @JsonIgnore
     private Timestamp create_date;
     @JsonIgnore
     private Timestamp update_date;
-    private RoleDto role;
-
 }

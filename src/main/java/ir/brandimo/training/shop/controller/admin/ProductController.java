@@ -7,11 +7,15 @@ import ir.brandimo.training.shop.dto.admin.ProductDto;
 import ir.brandimo.training.shop.entity.ProductEntity;
 import ir.brandimo.training.shop.mapper.admin.ProductMapper;
 import ir.brandimo.training.shop.service.admin.ProductService;
+import ir.brandimo.training.shop.util.AuthUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -28,6 +32,9 @@ public class ProductController {
 
     @Autowired
     ProductMapper productMapper;
+
+    @Autowired
+    private SecurityContextHolder securityContextHolder;
 
     @GetMapping("/{id}")
     @Operation(summary = "Get Product by id", description = "Returns a Product by id")
@@ -50,6 +57,11 @@ public class ProductController {
     public ResponseEntity<List<ProductDto>> getAllProducts(){
         List<ProductDto> productDtos = productMapper.toDTOList(productService.getAllProducts());
         return new ResponseEntity<List<ProductDto>>(productDtos, new HttpHeaders(), HttpStatus.OK);
+    }
+
+    @GetMapping("/user")
+    public String getUser() {
+        return "User ID: " + AuthUtils.getUserId();
     }
 
     @DeleteMapping("/{id}")

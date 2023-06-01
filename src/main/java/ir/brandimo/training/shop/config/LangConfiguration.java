@@ -66,4 +66,22 @@ public class LangConfiguration {
         return messageSource;
     }
 
+    @Bean
+    public MessageSource order() {
+        ReloadableResourceBundleMessageSource messageSource =
+                new ReloadableResourceBundleMessageSource();
+        messageSource.setBasename(path + "order");
+        messageSource.setDefaultEncoding("UTF-8");
+        return messageSource;
+    }
+
+    @Bean
+    public MessageSource bank() {
+        ReloadableResourceBundleMessageSource messageSource =
+                new ReloadableResourceBundleMessageSource();
+        messageSource.setBasename(path + "bank");
+        messageSource.setDefaultEncoding("UTF-8");
+        return messageSource;
+    }
+
 }

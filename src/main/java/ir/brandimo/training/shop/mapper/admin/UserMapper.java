@@ -17,7 +17,7 @@ public interface UserMapper {
 
     UserMapper USER_MAPPER = Mappers.getMapper(UserMapper.class);
 
-    @Mapping(source = "userEntity.id", target = "userId")
+
     @Mapping(source = "userEntity.role.id", target = "role.roleId")
     @Mapping(source = "userEntity.role.role_permissions", target = "role.permissions")
     UserDto userEntityToDto(UserEntity userEntity);

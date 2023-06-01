@@ -75,15 +75,28 @@ public class ProductServiceImpl implements ProductService {
     @Override
     @Transactional
     public void deleteProductById(Integer id) {
-        if (productRepository.existsById(id)) {
-            ProductEntity product = productRepository.findById(id).orElseThrow();
-            //  Set<PermissionEntity> permissionEntities = product.getProduct_permissions();
-            //  product.getProduct_permissions().removeAll(product.getProduct_permissions());
-            productRepository.deleteById(id);
-            //permissionRepository.saveAll(permissionEntities);
-        } else {
-            throw new EntityNotFound(langConfiguration.product().getMessage("notFound.message", null, Locale.ENGLISH));
+        ProductEntity product = productRepository.findById(id)
+                .orElseThrow(() -> new EntityNotFound(langConfiguration.product().getMessage("notFound.message", null, Locale.ENGLISH)));
+        // Remove the product from the category's list of products
+        CategoryEntity category = product.getCategory();
+        if (category != null) {
+            category.getProducts().remove(product);
         }
+        // Remove the product from the productDetail's list of products
+        List<ProductDetailEntity> productDetails = product.getProductDetails();
+        if (productDetails != null) {
+            for (ProductDetailEntity productDetail : productDetails) {
+                // delete file from server
+                try {
+                    delete(productDetail.getFileName());
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+                productDetail.setProduct(null);
+            }
+        }
+        // Delete the product entity from the database
+        productRepository.delete(product);
     }
 
     private void saveImageFromBase64(String base64, String fileName) throws IOException, Exception{
@@ -109,6 +122,7 @@ public class ProductServiceImpl implements ProductService {
     }
 
     @Override
+    @Transactional
     public ProductDto createProduct(ProductDto productDTO) {
 
         ProductEntity product = productMapper.toEntity(productDTO);
@@ -142,10 +156,10 @@ public class ProductServiceImpl implements ProductService {
 
         return productMapper.toDTO(savedProduct);
 
-
     }
 
     @Override
+    @Transactional
     public ProductDto updateProduct(ProductDto productDTO) {
 
         //ProductEntity product = productMapper.toEntity(productDTO);
